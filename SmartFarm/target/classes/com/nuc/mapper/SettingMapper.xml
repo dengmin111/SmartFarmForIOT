@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nuc.mapper.SettingMapper">
+  <resultMap id="BaseResultMap" type="com.nuc.pojo.Setting">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="temperature" jdbcType="REAL" property="temperature" />
+    <result column="humidity" jdbcType="REAL" property="humidity" />
+    <result column="light_intensity" jdbcType="REAL" property="lightIntensity" />
+    <result column="raindrop" jdbcType="REAL" property="raindrop" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, temperature, humidity, light_intensity, raindrop
+  </sql>
+  <select id="selectByExample" parameterType="com.nuc.pojo.SettingExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from setting
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from setting
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from setting
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nuc.pojo.SettingExample">
+    delete from setting
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nuc.pojo.Setting">
+    insert into setting (id, temperature, humidity, 
+      light_intensity, raindrop)
+    values (#{id,jdbcType=INTEGER}, #{temperature,jdbcType=REAL}, #{humidity,jdbcType=REAL}, 
+      #{lightIntensity,jdbcType=REAL}, #{raindrop,jdbcType=REAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nuc.pojo.Setting">
+    insert into setting
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="temperature != null">
+        temperature,
+      </if>
+      <if test="humidity != null">
+        humidity,
+      </if>
+      <if test="lightIntensity != null">
+        light_intensity,
+      </if>
+      <if test="raindrop != null">
+        raindrop,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="temperature != null">
+        #{temperature,jdbcType=REAL},
+      </if>
+      <if test="humidity != null">
+        #{humidity,jdbcType=REAL},
+      </if>
+      <if test="lightIntensity != null">
+        #{lightIntensity,jdbcType=REAL},
+      </if>
+      <if test="raindrop != null">
+        #{raindrop,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nuc.pojo.SettingExample" resultType="java.lang.Long">
+    select count(*) from setting
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update setting
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.temperature != null">
+        temperature = #{record.temperature,jdbcType=REAL},
+      </if>
+      <if test="record.humidity != null">
+        humidity = #{record.humidity,jdbcType=REAL},
+      </if>
+      <if test="record.lightIntensity != null">
+        light_intensity = #{record.lightIntensity,jdbcType=REAL},
+      </if>
+      <if test="record.raindrop != null">
+        raindrop = #{record.raindrop,jdbcType=REAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update setting
+    set id = #{record.id,jdbcType=INTEGER},
+      temperature = #{record.temperature,jdbcType=REAL},
+      humidity = #{record.humidity,jdbcType=REAL},
+      light_intensity = #{record.lightIntensity,jdbcType=REAL},
+      raindrop = #{record.raindrop,jdbcType=REAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nuc.pojo.Setting">
+    update setting
+    <set>
+      <if test="temperature != null">
+        temperature = #{temperature,jdbcType=REAL},
+      </if>
+      <if test="humidity != null">
+        humidity = #{humidity,jdbcType=REAL},
+      </if>
+      <if test="lightIntensity != null">
+        light_intensity = #{lightIntensity,jdbcType=REAL},
+      </if>
+      <if test="raindrop != null">
+        raindrop = #{raindrop,jdbcType=REAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nuc.pojo.Setting">
+    update setting
+    set temperature = #{temperature,jdbcType=REAL},
+      humidity = #{humidity,jdbcType=REAL},
+      light_intensity = #{lightIntensity,jdbcType=REAL},
+      raindrop = #{raindrop,jdbcType=REAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
